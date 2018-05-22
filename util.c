@@ -1496,7 +1496,7 @@ static bool parse_notify(struct pool *pool, json_t *val)
 {
 	char *job_id, *prev_hash, *coinbase1, *coinbase2, *doncoinbase1, *doncoinbase2,
 	     *bbversion, *nbit, *ntime, *header;
-	size_t cb1_len, cb2_len, doncb1_len, doncb2_len, alloc_len;
+	size_t cb1_len, cb2_len, doncb1_len, doncb2_len, alloc_len, donalloc_len;
 	unsigned char *cb1, *cb2, *doncb1, *doncb2;
 	bool clean, ret = false;
 	int merkles, i;
