@@ -281,12 +281,12 @@ static int curl_debug_cb(__maybe_unused CURL *handle, curl_infotype type,
 		case CURLINFO_HEADER_IN:
 		case CURLINFO_DATA_IN:
 		case CURLINFO_SSL_DATA_IN:
-			pool->sgminer_pool_stats.net_bytes_received += size;
+			pool->triglav_pool_stats.net_bytes_received += size;
 			break;
 		case CURLINFO_HEADER_OUT:
 		case CURLINFO_DATA_OUT:
 		case CURLINFO_SSL_DATA_OUT:
-			pool->sgminer_pool_stats.net_bytes_sent += size;
+			pool->triglav_pool_stats.net_bytes_sent += size;
 			break;
 		case CURLINFO_TEXT:
 		default:
@@ -420,12 +420,12 @@ json_t *json_rpc_call(CURL *curl, const char *url,
 		goto err_out;
 	}
 
-	pool->sgminer_pool_stats.times_sent++;
+	pool->triglav_pool_stats.times_sent++;
 	if (curl_easy_getinfo(curl, CURLINFO_SIZE_UPLOAD, &byte_count) == CURLE_OK)
-		pool->sgminer_pool_stats.bytes_sent += byte_count;
-	pool->sgminer_pool_stats.times_received++;
+		pool->triglav_pool_stats.bytes_sent += byte_count;
+	pool->triglav_pool_stats.times_received++;
 	if (curl_easy_getinfo(curl, CURLINFO_SIZE_DOWNLOAD, &byte_count) == CURLE_OK)
-		pool->sgminer_pool_stats.bytes_received += byte_count;
+		pool->triglav_pool_stats.bytes_received += byte_count;
 
 	if (probing) {
 		pool->probed = true;
@@ -452,10 +452,10 @@ json_t *json_rpc_call(CURL *curl, const char *url,
 	}
 
 	*rolltime = hi.rolltime;
-	pool->sgminer_pool_stats.rolltime = hi.rolltime;
-	pool->sgminer_pool_stats.hadrolltime = hi.hadrolltime;
-	pool->sgminer_pool_stats.canroll = hi.canroll;
-	pool->sgminer_pool_stats.hadexpire = hi.hadexpire;
+	pool->triglav_pool_stats.rolltime = hi.rolltime;
+	pool->triglav_pool_stats.hadrolltime = hi.hadrolltime;
+	pool->triglav_pool_stats.canroll = hi.canroll;
+	pool->triglav_pool_stats.hadexpire = hi.hadexpire;
 
 	val = JSON_LOADS((const char *)all_data.buf, &err);
 	if (!val) {
@@ -930,7 +930,7 @@ static void __maybe_unused timersubspec(struct timespec *a, const struct timespe
 	}
 }
 
-/* These are sgminer specific sleep functions that use an absolute nanosecond
+/* These are Triglav specific sleep functions that use an absolute nanosecond
  * resolution timer to avoid poor usleep accuracy and overruns. */
 #ifdef WIN32
 /* Windows start time is since 1601 LOL so convert it to unix epoch 1970. */
@@ -951,7 +951,7 @@ static void decius_time(lldiv_t *lidiv)
 	*lidiv = lldiv(li.QuadPart, 10000000);
 }
 
-/* This is a sgminer gettimeofday wrapper. Since we always call gettimeofday
+/* This is a Triglav gettimeofday wrapper. Since we always call gettimeofday
  * with tz set to NULL, and windows' default resolution is only 15ms, this
  * gives us higher resolution times on windows. */
 void cgtime(struct timeval *tv)
@@ -1282,9 +1282,9 @@ retry:
 		len -= sent;
 	}
 
-	pool->sgminer_pool_stats.times_sent++;
-	pool->sgminer_pool_stats.bytes_sent += ssent;
-	pool->sgminer_pool_stats.net_bytes_sent += ssent;
+	pool->triglav_pool_stats.times_sent++;
+	pool->triglav_pool_stats.bytes_sent += ssent;
+	pool->triglav_pool_stats.net_bytes_sent += ssent;
 	return SEND_OK;
 }
 
@@ -1449,9 +1449,9 @@ char *recv_line(struct pool *pool)
 	else
 		strcpy(pool->sockbuf, "");
 
-	pool->sgminer_pool_stats.times_received++;
-	pool->sgminer_pool_stats.bytes_received += len;
-	pool->sgminer_pool_stats.net_bytes_received += len;
+	pool->triglav_pool_stats.times_received++;
+	pool->triglav_pool_stats.bytes_received += len;
+	pool->triglav_pool_stats.net_bytes_received += len;
 out:
 	if (!sret)
 		clear_sock(pool);
@@ -2054,7 +2054,7 @@ static bool socks4_negotiate(struct pool *pool, int sockd, bool socks4a)
 	port = atoi(pool->stratum_port);
 	buf[2] = port >> 8;
 	buf[3] = port & 0xff;
-	sprintf(&buf[8], "SGMINER");
+	sprintf(&buf[8], "TRIGLAV");
 
 	/* See if we've been given an IP address directly to avoid needing to
 	 * resolve it. */
@@ -2608,7 +2608,7 @@ void RenameThread(const char* name)
 #endif
 }
 
-/* sgminer specific wrappers for true unnamed semaphore usage on platforms
+/* Triglav specific wrappers for true unnamed semaphore usage on platforms
  * that support them and for apple which does not. We use a single byte across
  * a pipe to emulate semaphore behaviour there. */
 #ifdef __APPLE__

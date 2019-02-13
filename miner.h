@@ -406,7 +406,7 @@ enum dev_reason {
 
 #define MIN_SEC_UNSET 99999999
 
-struct sgminer_stats {
+struct triglav_stats {
 	uint32_t getwork_calls;
 	struct timeval getwork_wait;
 	struct timeval getwork_wait_max;
@@ -414,7 +414,7 @@ struct sgminer_stats {
 };
 
 // Just the actual network getworks to the pool
-struct sgminer_pool_stats {
+struct triglav_pool_stats {
 	uint32_t getwork_calls;
 	uint32_t getwork_attempts;
 	struct timeval getwork_wait;
@@ -439,7 +439,7 @@ struct sgminer_pool_stats {
 };
 
 struct cgpu_info {
-	int sgminer_id;
+	int triglav_id;
 	struct device_drv *drv;
 	int device_id;
 	char *name;  /* GPU family codename. */
@@ -523,7 +523,7 @@ struct cgpu_info {
 	int dev_comms_error_count;
 	int dev_throttle_count;
 
-	struct sgminer_stats sgminer_stats;
+	struct triglav_stats triglav_stats;
 
 	pthread_rwlock_t qlock;
 	struct work *queued_work;
@@ -958,7 +958,7 @@ extern bool opt_protocol;
 extern bool have_longpoll;
 extern char *opt_kernel_path;
 extern char *opt_socks_proxy;
-extern char *sgminer_path;
+extern char *triglav_path;
 extern bool opt_fail_only;
 extern bool opt_autofan;
 extern bool opt_autoengine;
@@ -1238,8 +1238,8 @@ struct pool {
 	double last_share_diff;
 	uint64_t best_diff;
 
-	struct sgminer_stats sgminer_stats;
-	struct sgminer_pool_stats sgminer_pool_stats;
+	struct triglav_stats triglav_stats;
+	struct triglav_pool_stats triglav_pool_stats;
 
 	/* The last block this particular pool knows about */
 	char prev_block[32];

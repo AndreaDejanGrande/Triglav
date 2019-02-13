@@ -1,6 +1,6 @@
 <?php
 #
-# Sample Socket I/O to sgminer API
+# Sample Socket I/O to Triglav API
 #
 function getsock($addr, $port)
 {

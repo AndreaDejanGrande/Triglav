@@ -11,12 +11,12 @@ m4_define([lt_age], v_min)
 ##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
 ##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
 
-AC_INIT([sgminer], [v_ver], [veox@wemakethings.net], [sgminer], [https://github.com/sgminer-dev/sgminer])
+AC_INIT([triglav], [v_ver], [svarog@jugoslaven.com], [triglav], [https://github.com/AndreaDejanGrande/Triglav])
 
 AC_PREREQ(2.59)
 AC_CANONICAL_SYSTEM
 AC_CONFIG_MACRO_DIR([m4])
-AC_CONFIG_SRCDIR([sgminer.c])
+AC_CONFIG_SRCDIR([triglav.c])
 AC_CONFIG_HEADERS([config.h])
 
 AM_INIT_AUTOMAKE([foreign subdir-objects])
@@ -27,9 +27,9 @@ AC_USE_SYSTEM_EXTENSIONS
 ##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##--##
 m4_ifdef([v_rev], , [m4_define([v_rev], [0])])
 m4_ifdef([v_rel], , [m4_define([v_rel], [])])
-AC_DEFINE_UNQUOTED(SGMINER_MAJOR_VERSION, [v_maj], [Major version])
-AC_DEFINE_UNQUOTED(SGMINER_MINOR_VERSION, [v_min], [Minor version])
-AC_DEFINE_UNQUOTED(SGMINER_MINOR_SUBVERSION, [v_mic], [Micro version])
+AC_DEFINE_UNQUOTED(TRIGLAV_MAJOR_VERSION, [v_maj], [Major version])
+AC_DEFINE_UNQUOTED(TRIGLAV_MINOR_VERSION, [v_min], [Minor version])
+AC_DEFINE_UNQUOTED(TRIGLAV_MINOR_SUBVERSION, [v_mic], [Micro version])
 version_info="lt_rev:lt_cur:lt_age"
 release_info="v_rel"
 AC_SUBST(version_info)
@@ -128,11 +128,11 @@ if test "x$have_win32" != xtrue; then
 	fi
 fi
 
-have_sgminer_sdk=false
-if test -n "$SGMINER_SDK"; then
-	have_sgminer_sdk=true
-	CPPFLAGS="-I$SGMINER_SDK/include $CPPFLAGS"
-	LDFLAGS="-L$SGMINER_SDK/lib/$target $LDFLAGS"
+have_triglav_sdk=false
+if test -n "$TRIGLAV_SDK"; then
+	have_triglav_sdk=true
+	CPPFLAGS="-I$TRIGLAV_SDK/include $CPPFLAGS"
+	LDFLAGS="-L$TRIGLAV_SDK/lib/$target $LDFLAGS"
 fi
 
 # Check for OpenCL (the long way needed on mingw32 due to calling conventions)
@@ -196,9 +196,9 @@ if test "$found_opencl" = 1; then
 			AC_CHECK_FILE([$srcdir/ADL_SDK/adl_sdk.h], [have_adl=true; ADL_CPPFLAGS=-I$srcdir], have_adl=false,)
 		fi
 
-		dnl FIXME: Check if SGMINER_SDK present
-		if test x$have_adl+$have_sgminer_sdk = xfalse+true; then
-			AC_CHECK_FILE([$SGMINER_SDK/include/ADL_SDK/adl_sdk.h], [have_adl=true; ADL_CPPFLAGS=-I$SGMINER_SDK/include], have_adl=false,)
+		dnl FIXME: Check if TRIGLAV_SDK present
+		if test x$have_adl+$have_triglav_sdk = xfalse+true; then
+			AC_CHECK_FILE([$TRIGLAV_SDK/include/ADL_SDK/adl_sdk.h], [have_adl=true; ADL_CPPFLAGS=-I$TRIGLAV_SDK/include], have_adl=false,)
 		fi
 
 		if test "x$have_adl" = xtrue
@@ -250,14 +250,14 @@ JANSSON_LIBS="compat/jansson-2.5/src/.libs/libjansson.a"
 
 PKG_PROG_PKG_CONFIG()
 
-if test "x$have_sgminer_sdk" = "xtrue"; then
+if test "x$have_triglav_sdk" = "xtrue"; then
 	if test "x$have_x86_64" = xtrue; then
 		ARCH_DIR=x86_64
 	else
 		ARCH_DIR=x86
 	fi
-	PKG_CONFIG="${PKG_CONFIG:-pkg-config} --define-variable=arch=$ARCH_DIR --define-variable=target=$target --define-variable=sgminersdkdir=$SGMINER_SDK"
-	PKG_CONFIG_PATH="$SGMINER_SDK/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+	PKG_CONFIG="${PKG_CONFIG:-pkg-config} --define-variable=arch=$ARCH_DIR --define-variable=target=$target --define-variable=triglavsdkdir=$TRIGLAV_SDK"
+	PKG_CONFIG_PATH="$TRIGLAV_SDK/lib/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
 fi
 
 AC_ARG_ENABLE([libcurl],
@@ -347,7 +347,7 @@ if test "x$prefix" = xNONE; then
 	prefix=/usr/local
 fi
 
-AC_DEFINE_UNQUOTED([SGMINER_PREFIX], ["$prefix/bin"], [Path to sgminer install])
+AC_DEFINE_UNQUOTED([TRIGLAV_PREFIX], ["$prefix/bin"], [Path to Triglav install])
 
 AC_SUBST(OPENCL_LIBS)
 AC_SUBST(OPENCL_FLAGS)

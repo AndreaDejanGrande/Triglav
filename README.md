@@ -72,7 +72,7 @@ AMD APP SDK and AMD ADL SDK must be downloaded from the amd websites.
 
 ### *nix build instructions
 
-If needed, place include headers (`*.h` files) from `ADL_SDK_*<VERSION>*.zip` in `sgminer/ADL_SDK`.
+If needed, place include headers (`*.h` files) from `ADL_SDK_*<VERSION>*.zip` in `triglav/ADL_SDK`.
 
 Then:
 
@@ -85,7 +85,7 @@ To compile a version that can be used accross machines, remove
 
 To compile a debug version, replace `-O2` with `-ggdb`.
 
-Systemwide installation is optional. You may run `sgminer` from the build
+Systemwide installation is optional. You may run `triglav` from the build
 directory directly, or `make install` if you wish to install
 `Triglav` to a system location or a location you specified with `--prefix`.
 
@@ -102,7 +102,7 @@ instructions in `winbuild/README.txt`.
 **WARNING**: documentation below this point has not been updated since the
 fork.
 
-After saving configuration from the menu, you do not need to give sgminer
+After saving configuration from the menu, you do not need to give Triglav
 any arguments and it will load your configuration.
 
 Any configuration file may also contain a single
@@ -116,23 +116,23 @@ output.
 
 Single pool:
 
-sgminer -o http://pool:port -u username -p password
+triglav -o http://pool:port -u username -p password
 
 Multiple pools:
 
-sgminer -o http://pool1:port -u pool1username -p pool1password -o http://pool2:port -u pool2usernmae -p pool2password
+triglav -o http://pool1:port -u pool1username -p pool1password -o http://pool2:port -u pool2usernmae -p pool2password
 
 Single pool with a standard http proxy, regular desktop:
 
-sgminer -o "http:proxy:port|http://pool:port" -u username -p password
+triglav -o "http:proxy:port|http://pool:port" -u username -p password
 
 Single pool with a socks5 proxy, regular desktop:
 
-sgminer -o "socks5:proxy:port|http://pool:port" -u username -p password
+triglav -o "socks5:proxy:port|http://pool:port" -u username -p password
 
 Single pool with stratum protocol support:
 
-sgminer -o stratum+tcp://pool:port -u username -p password
+triglav -o stratum+tcp://pool:port -u username -p password
 
 The list of proxy types are:
  http:    standard http 1.1 proxy
@@ -142,15 +142,15 @@ The list of proxy types are:
  socks4a: socks4a proxy
  socks5h: socks5 proxy using a hostname
 
-If you compile sgminer with a version of CURL before 7.19.4 then some of
+If you compile Triglav with a version of CURL before 7.19.4 then some of
 the above will not be available. All are available since CURL version
 7.19.4.
 
-If you specify the --socks-proxy option to sgminer, it will only be
+If you specify the --socks-proxy option to Triglav, it will only be
 applied to all pools that don't specify their own proxy setting like
 above.
 
-For more advanced usage , run `sgminer --help`.
+For more advanced usage , run `triglav --help`.
 
 See `doc/GPU` for more information regarding GPU mining and
 `doc/SCRYPT` for more information regarding Scrypt mining.
@@ -248,7 +248,7 @@ The total difficulty of rejected shares
 The number of hardware erorrs
 The work utility defined as the number of diff1 shares work / minute
 
-The sgminer status line shows:
+The Triglav status line shows:
  ST: 1  SS: 0  NB: 1  LW: 8  GF: 1  RF: 1
 
 ST is STaged work items (ready to use).
@@ -262,7 +262,7 @@ The block display shows:
 Block: 0074c5e482e34a506d2a051a...  Started: [17:17:22]  Best share: 2.71K
 
 This shows a short stretch of the current block, when the new block started,
-and the all time best difficulty share you've found since starting sgminer
+and the all time best difficulty share you've found since starting Triglav
 this time.
 
 
@@ -446,8 +446,8 @@ standard output (not advisable with the ncurses UI), any valid positive number
 for that file descriptor, or a filename.
 
 To log share data to a file named "share.log", you can use either:
-./sgminer --sharelog 50 -o xxx -u yyy -p zzz 50>share.log
-./sgminer --sharelog share.log -o xxx -u yyy -p zzz
+./triglav --sharelog 50 -o xxx -u yyy -p zzz 50>share.log
+./triglav --sharelog share.log -o xxx -u yyy -p zzz
 
 For every share found, data will be logged in a CSV (Comma Separated Value)
 format:

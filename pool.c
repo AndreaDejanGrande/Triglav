@@ -1,5 +1,6 @@
 /*-
  * Copyright 2014 sgminer developers.
+ * Copyright 2018-2019 Triglav developers.
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

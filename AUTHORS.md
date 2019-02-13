@@ -47,7 +47,7 @@ updated by many others.
 ...and many others. See:
 
 * [veox/sgminer](https://github.com/veox/sgminer/graphs/contributors)
-
+* [AndreaDejanGrande/Triglav](https://github.com/AndreaDejanGrande/Triglav/graphs/contributors)
 
 ## Legacy
 

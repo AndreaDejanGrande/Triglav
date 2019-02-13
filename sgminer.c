@@ -1,4 +1,5 @@
 /*
+ * Copyright 2018-2019 Triglav developers
  * Copyright 2011-2013 Con Kolivas
  * Copyright 2011-2012 Luke Dashjr
  * Copyright 2010 Jeff Garzik
@@ -160,7 +161,7 @@ int opt_tcp_keepalive;
 #endif
 
 char *opt_kernel_path;
-char *sgminer_path;
+char *triglav_path;
 
 #define QUIET	(opt_quiet || opt_realquiet)
 
@@ -279,7 +280,7 @@ static struct stratum_share *stratum_shares = NULL;
 
 char *opt_socks_proxy = NULL;
 
-static const char def_conf[] = "sgminer.conf";
+static const char def_conf[] = "triglav.conf";
 static char *default_config;
 static bool config_loaded;
 static int include_count;
@@ -1139,7 +1140,7 @@ static struct opt_table opt_config_table[] = {
 		     "Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]"),
 	OPT_WITH_ARG("--api-description",
 		     set_api_description, NULL, NULL,
-		     "Description placed in the API status header, default: sgminer version"),
+		     "Description placed in the API status header, default: Triglav version"),
 	OPT_WITH_ARG("--api-groups",
 		     set_api_groups, NULL, NULL,
 		     "API one letter groups G:cmd:cmd[,P:cmd:*...] defining the cmds a groups can use"),
@@ -1180,7 +1181,7 @@ static struct opt_table opt_config_table[] = {
 		     "Change multipool strategy from failover to even share balance"),
 	OPT_WITHOUT_ARG("--benchmark",
 			opt_set_bool, &opt_benchmark,
-			"Run sgminer in benchmark mode - produces no shares"),
+			"Run Triglav in benchmark mode - produces no shares"),
 #ifdef HAVE_CURSES
 	OPT_WITHOUT_ARG("--compact",
 			opt_set_bool, &opt_compact,
@@ -2859,7 +2860,7 @@ out:
 static bool get_upstream_work(struct work *work, CURL *curl)
 {
 	struct pool *pool = work->pool;
-	struct sgminer_pool_stats *pool_stats = &(pool->sgminer_pool_stats);
+	struct triglav_pool_stats *pool_stats = &(pool->triglav_pool_stats);
 	struct timeval tv_elapsed;
 	json_t *val = NULL;
 	bool rc = false;
@@ -3063,7 +3064,7 @@ static double le256todouble(const void *target)
  */
 static void calc_diff(struct work *work, double known)
 {
-	struct sgminer_pool_stats *pool_stats = &(work->pool->sgminer_pool_stats);
+	struct triglav_pool_stats *pool_stats = &(work->pool->triglav_pool_stats);
 	double difficulty;
 	uint64_t uintdiff;
 
@@ -3103,7 +3104,7 @@ static void calc_diff(struct work *work, double known)
 static void get_benchmark_work(struct work *work)
 {
 	// Use a random work block pulled from a pool
-	static uint8_t bench_block[] = { SGMINER_BENCHMARK_BLOCK };
+	static uint8_t bench_block[] = { TRIGLAV_BENCHMARK_BLOCK };
 
 	size_t bench_size = sizeof(*work);
 	size_t work_size = sizeof(bench_block);
@@ -3677,7 +3678,7 @@ static bool stale_work(struct work *work, bool share)
 
 	/* Factor in the average getwork delay of this pool, rounding it up to
 	 * the nearest second */
-	getwork_delay = pool->sgminer_pool_stats.getwork_wait_rolling * 5 + 1;
+	getwork_delay = pool->triglav_pool_stats.getwork_wait_rolling * 5 + 1;
 	work_expiry -= getwork_delay;
 	if (unlikely(work_expiry < 5))
 		work_expiry = 5;
@@ -4886,7 +4887,7 @@ void default_save_file(char *filename)
 	}
 	else
 		strcpy(filename, "");
-	strcat(filename, ".sgminer/");
+	strcat(filename, ".triglav/");
 	mkdir(filename, 0777);
 #else
 	strcpy(filename, "");
@@ -6354,8 +6355,8 @@ static void hash_sole_work(struct thr_info *mythr)
 	struct cgpu_info *cgpu = mythr->cgpu;
 	struct device_drv *drv = cgpu->drv;
 	struct timeval getwork_start, tv_start, *tv_end, tv_workstart, tv_lastupdate;
-	struct sgminer_stats *dev_stats = &(cgpu->sgminer_stats);
-	struct sgminer_stats *pool_stats;
+	struct triglav_stats *dev_stats = &(cgpu->triglav_stats);
+	struct triglav_stats *pool_stats;
 	/* Try to cycle approximately 5 times before each log update */
 	const long cycle = opt_log_interval / 5 ? 5 : 1;
 	const bool primary = mythr->device_thread == 0;
@@ -6413,7 +6414,7 @@ static void hash_sole_work(struct thr_info *mythr)
 				copy_time(&dev_stats->getwork_wait_min, &getwork_start);
 			dev_stats->getwork_calls++;
 
-			pool_stats = &(work->pool->sgminer_stats);
+			pool_stats = &(work->pool->triglav_stats);
 
 			addtime(&getwork_start, &pool_stats->getwork_wait);
 			if (time_more(&getwork_start, &pool_stats->getwork_wait_max))
@@ -7736,7 +7737,7 @@ void enable_curses(void) {
 }
 #endif
 
-static int sgminer_id_count = 0;
+static int triglav_id_count = 0;
 
 /* Various noop functions for drivers that don't support or need their
  * variants. */
@@ -7846,7 +7847,7 @@ void enable_device(struct cgpu_info *cgpu)
 	cgpu->deven = DEV_ENABLED;
 
 	wr_lock(&devices_lock);
-	devices[cgpu->sgminer_id = sgminer_id_count++] = cgpu;
+	devices[cgpu->triglav_id = triglav_id_count++] = cgpu;
 	wr_unlock(&devices_lock);
 
 	mining_threads += cgpu->threads;
@@ -8008,20 +8009,20 @@ int main(int argc, char *argv[])
 	sigaction(SIGINT, &handler, &inthandler);
 #endif
 
-	/* opt_kernel_path defaults to SGMINER_PREFIX */
+	/* opt_kernel_path defaults to TRIGLAV_PREFIX */
 	opt_kernel_path = (char *)alloca(PATH_MAX);
-	strcpy(opt_kernel_path, SGMINER_PREFIX);
+	strcpy(opt_kernel_path, TRIGLAV_PREFIX);
 
-	/* sgminer_path is current dir */
-	sgminer_path = (char *)alloca(PATH_MAX);
+	/* triglav_path is current dir */
+	triglav_path = (char *)alloca(PATH_MAX);
 #ifndef _MSC_VER
 	s = strdup(argv[0]);
-	strcpy(sgminer_path, dirname(s));
+	strcpy(triglav_path, dirname(s));
 	free(s);
-	strcat(sgminer_path, "/");
+	strcat(triglav_path, "/");
 #else
-	GetCurrentDirectory(PATH_MAX - 1, sgminer_path);
-	strcat(sgminer_path, "\\");
+	GetCurrentDirectory(PATH_MAX - 1, triglav_path);
+	strcat(triglav_path, "\\");
 #endif
 
 	/* Default algorithm specified in algorithm.c ATM */
@@ -8093,7 +8094,7 @@ int main(int argc, char *argv[])
 			case -1:
 				applog(LOG_WARNING, "Error in configuration file, partially loaded.");
 				if (use_curses)
-					applog(LOG_WARNING, "Start sgminer with -T to see what failed to load.");
+					applog(LOG_WARNING, "Start Triglav with -T to see what failed to load.");
 				break;
 			default:
 				break;
@@ -8144,7 +8145,7 @@ int main(int argc, char *argv[])
 				devices[i]->deven = DEV_DISABLED;
 			}
 		}
-		total_devices = sgminer_id_count;
+		total_devices = triglav_id_count;
 	} else {
 		for (i = 0; i < total_devices; ++i)
 			enable_device(devices[i]);
@@ -8158,7 +8159,7 @@ int main(int argc, char *argv[])
 	load_temp_cutoffs();
 
 	for (i = 0; i < total_devices; ++i)
-		devices[i]->sgminer_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
+		devices[i]->triglav_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
 
 	if (!opt_compact) {
 		logstart += most_devices;
@@ -8185,8 +8186,8 @@ int main(int argc, char *argv[])
 		struct pool *pool = pools[i];
 		size_t siz;
 
-		pool->sgminer_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
-		pool->sgminer_pool_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
+		pool->triglav_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
+		pool->triglav_pool_stats.getwork_wait_min.tv_sec = MIN_SEC_UNSET;
 
 		if (!pool->rpc_userpass) {
 			if (!pool->rpc_user || !pool->rpc_pass)
@@ -8305,7 +8306,7 @@ int main(int argc, char *argv[])
 #ifdef HAVE_CURSES
 			if (use_curses) {
 				halfdelay(150);
-				applog(LOG_ERR, "Press any key to exit, or sgminer will try again in 15s.");
+				applog(LOG_ERR, "Press any key to exit, or Triglav will try again in 15s.");
 				if (getch() != ERR)
 					quit(0, "No servers could be used! Exiting.");
 				cbreak();

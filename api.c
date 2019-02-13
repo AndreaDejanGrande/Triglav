@@ -361,7 +361,7 @@ struct CODES {
  { SEVERITY_ERR,   MSG_MISID,	PARAM_NONE,	"Missing device id parameter" },
  { SEVERITY_SUCC,  MSG_GPUDEV,	PARAM_GPU,	"GPU%d" },
  { SEVERITY_SUCC,  MSG_NUMGPU,	PARAM_NONE,	"GPU count" },
- { SEVERITY_SUCC,  MSG_VERSION,	PARAM_NONE,	"SGMiner versions" },
+ { SEVERITY_SUCC,  MSG_VERSION,	PARAM_NONE,	"Triglav versions" },
  { SEVERITY_ERR,   MSG_INVJSON,	PARAM_NONE,	"Invalid JSON" },
  { SEVERITY_ERR,   MSG_MISCMD,	PARAM_CMD,	"Missing JSON '%s'" },
  { SEVERITY_ERR,   MSG_MISPID,	PARAM_NONE,	"Missing pool id parameter" },
@@ -372,7 +372,7 @@ struct CODES {
  { SEVERITY_ERR,   MSG_NOGPUADL,PARAM_GPU,	"GPU %d does not have ADL" },
  { SEVERITY_ERR,   MSG_INVINT,	PARAM_STR,	"Invalid intensity (%s) - must be '" _DYNAMIC  "' or range " MIN_INTENSITY_STR " - " MAX_INTENSITY_STR },
  { SEVERITY_INFO,  MSG_GPUINT,	PARAM_BOTH,	"GPU %d set new intensity to %s" },
- { SEVERITY_SUCC,  MSG_MINECONFIG,PARAM_NONE,	"sgminer config" },
+ { SEVERITY_SUCC,  MSG_MINECONFIG,PARAM_NONE,	"Triglav config" },
  { SEVERITY_ERR,   MSG_GPUMERR,	PARAM_BOTH,	"Setting GPU %d memoryclock to (%s) reported failure" },
  { SEVERITY_SUCC,  MSG_GPUMEM,	PARAM_BOTH,	"Setting GPU %d memoryclock to (%s) reported success" },
  { SEVERITY_ERR,   MSG_GPUEERR,	PARAM_BOTH,	"Setting GPU %d clock to (%s) reported failure" },
@@ -401,13 +401,13 @@ struct CODES {
  { SEVERITY_SUCC,  MSG_REMPOOL, PARAM_BOTH,	"Removed pool %d:'%s'" },
  { SEVERITY_SUCC,  MSG_NOTIFY,	PARAM_NONE,	"Notify" },
  { SEVERITY_SUCC,  MSG_DEVDETAILS,PARAM_NONE,	"Device Details" },
- { SEVERITY_SUCC,  MSG_MINESTATS,PARAM_NONE,	"sgminer stats" },
+ { SEVERITY_SUCC,  MSG_MINESTATS,PARAM_NONE,	"Triglav stats" },
  { SEVERITY_ERR,   MSG_MISCHK,	PARAM_NONE,	"Missing check cmd" },
  { SEVERITY_SUCC,  MSG_CHECK,	PARAM_NONE,	"Check command" },
  { SEVERITY_ERR,   MSG_MISBOOL,	PARAM_NONE,	"Missing parameter: true/false" },
  { SEVERITY_ERR,   MSG_INVBOOL,	PARAM_NONE,	"Invalid parameter should be true or false" },
  { SEVERITY_SUCC,  MSG_FOO,	PARAM_BOOL,	"Failover-Only set to %s" },
- { SEVERITY_SUCC,  MSG_MINECOIN,PARAM_NONE,	"sgminer coin" },
+ { SEVERITY_SUCC,  MSG_MINECOIN,PARAM_NONE,	"Triglav coin" },
  { SEVERITY_SUCC,  MSG_DEBUGSET,PARAM_NONE,	"Debug settings" },
  { SEVERITY_SUCC,  MSG_SETCONFIG,PARAM_SET,	"Set config '%s' to %d" },
  { SEVERITY_ERR,   MSG_UNKCON,	PARAM_STR,	"Unknown config '%s'" },
@@ -2232,7 +2232,7 @@ static void poolpriority(struct io_data *io_data, __maybe_unused SOCKETTYPE c, c
 	char *ptr, *next;
 	int i, pr, prio = 0;
 
-	// TODO: all sgminer code needs a mutex added everywhere for change
+	// TODO: all Triglav code needs a mutex added everywhere for change
 	//	access to total_pools and also parts of the pools[] array,
 	//	just copying total_pools here wont solve that
 
@@ -2750,7 +2750,7 @@ void dosave(struct io_data *io_data, __maybe_unused SOCKETTYPE c, char *param, b
 	ptr = NULL;
 }
 
-static int itemstats(struct io_data *io_data, int i, char *id, struct sgminer_stats *stats, struct sgminer_pool_stats *pool_stats, struct api_data *extra, struct cgpu_info *cgpu, bool isjson)
+static int itemstats(struct io_data *io_data, int i, char *id, struct triglav_stats *stats, struct triglav_pool_stats *pool_stats, struct api_data *extra, struct cgpu_info *cgpu, bool isjson)
 {
 	struct api_data *root = NULL;
 	char buf[TMPBUFSIZ];
@@ -2820,7 +2820,7 @@ static void minerstats(struct io_data *io_data, __maybe_unused SOCKETTYPE c, __m
 				extra = NULL;
 
 			sprintf(id, "%s%d", cgpu->drv->name, cgpu->device_id);
-			i = itemstats(io_data, i, id, &(cgpu->sgminer_stats), NULL, extra, cgpu, isjson);
+			i = itemstats(io_data, i, id, &(cgpu->triglav_stats), NULL, extra, cgpu, isjson);
 		}
 	}
 
@@ -2828,7 +2828,7 @@ static void minerstats(struct io_data *io_data, __maybe_unused SOCKETTYPE c, __m
 		struct pool *pool = pools[j];
 
 		sprintf(id, "POOL%d", j);
-		i = itemstats(io_data, i, id, &(pool->sgminer_stats), &(pool->sgminer_pool_stats), NULL, NULL, isjson);
+		i = itemstats(io_data, i, id, &(pool->triglav_stats), &(pool->triglav_pool_stats), NULL, NULL, isjson);
 	}
 
 	if (isjson && io_open)
@@ -3508,7 +3508,7 @@ static void *quit_thread(__maybe_unused void *userdata)
 	mutex_unlock(&quit_restart_lock);
 
 	if (opt_debug)
-		applog(LOG_DEBUG, "API: killing sgminer");
+		applog(LOG_DEBUG, "API: killing Triglav");
 
 	kill_work();
 
@@ -3522,7 +3522,7 @@ static void *restart_thread(__maybe_unused void *userdata)
 	mutex_unlock(&quit_restart_lock);
 
 	if (opt_debug)
-		applog(LOG_DEBUG, "API: restarting sgminer");
+		applog(LOG_DEBUG, "API: restarting Triglav");
 
 	app_restart();
 
@@ -3574,7 +3574,7 @@ static void mcast()
 	bool addrok;
 	char group;
 
-	char expect[] = "sgminer-"; // first 8 bytes constant
+	char expect[] = "triglav-"; // first 8 bytes constant
 	char *expect_code;
 	size_t expect_code_len;
 	char buf[1024];

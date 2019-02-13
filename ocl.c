@@ -53,14 +53,14 @@ char *file_contents(const char *filename, int *length)
 	strcat(fullpath, filename);
 	f = fopen(fullpath, "rb");
 	if (!f) {
-		/* Then try from the path sgminer was called */
-		strcpy(fullpath, sgminer_path);
+		/* Then try from the path Triglav was called */
+		strcpy(fullpath, triglav_path);
 		strcat(fullpath, filename);
 		f = fopen(fullpath, "rb");
 	}
 	if (!f) {
 		/* Then from `pwd`/kernel/ */
-		strcpy(fullpath, sgminer_path);
+		strcpy(fullpath, triglav_path);
 		strcat(fullpath, "kernel/");
 		strcat(fullpath, filename);
 		f = fopen(fullpath, "rb");
