@@ -38,7 +38,7 @@
     <ClCompile Include="..\ocl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\scrypt.c">
+    <ClCompile Include="..\vcrypt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\triglav.c">
@@ -133,7 +133,7 @@
     <ClInclude Include="..\ocl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\scrypt.h">
+    <ClInclude Include="..\vcrypt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\sha2.h">

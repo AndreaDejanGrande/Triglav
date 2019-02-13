@@ -40,7 +40,7 @@ __constant uint N[] = {
 	0x00000080U,
 	0x00000100U,
 	0x00000200U,
-	0x00000400U,  /* 2^10 == 1024, Litecoin scrypt default */
+	0x00000400U,  /* 2^10 == 1024, vDinar starting point */
 	0x00000800U,
 	0x00001000U,
 	0x00002000U,
@@ -53,7 +53,7 @@ __constant uint N[] = {
 	0x00100000U
 };
 
-/* Backwards compatibility, if NFACTOR not defined, default to 10 for scrypt */
+/* Backwards compatibility, if NFACTOR not defined, default to 10 for vCrypt */
 #ifndef NFACTOR
 #define NFACTOR 10
 #endif
@@ -610,7 +610,7 @@ void salsa(uint4 B[8])
 
 
 __constant uint COy=CONCURRENT_THREADS*8; 
-void scrypt_core(uint4 X[8], __global uint4* const restrict lookup)
+void vcrypt_core(uint4 X[8], __global uint4* const restrict lookup)
 {
     const uint lookup_bits = popcount((uint)(LOOKUP_GAP-1U));
     const uint write_loop  = N[NFACTOR-lookup_bits];
@@ -663,8 +663,8 @@ void scrypt_core(uint4 X[8], __global uint4* const restrict lookup)
 
 
 #pragma OPENCL EXTENSION cl_khr_global_int32_base_atomics : enable
-#define SCRYPT_FOUND (0xFF)
-#define SETFOUND(Xnonce) output[atomic_add(&output[SCRYPT_FOUND], 1)] = Xnonce;
+#define VCRYPT_FOUND (0xFF)
+#define SETFOUND(Xnonce) output[atomic_add(&output[VCRYPT_FOUND], 1)] = Xnonce;
 
 __attribute__((reqd_work_group_size(WORKSIZE, 1, 1)))
 __attribute__((max_work_group_size(WORKSIZE, 1, 1)))
@@ -699,7 +699,7 @@ __kernel void search(__global const uint4 * const restrict input,
 		SHA256(&X[rotl(i, 1U)], &X[rotl(i, 1U)+1], pad0, pad1, (uint4)(K[84], 0U, 0U, 0U), (uint4)(0U, 0U, 0U, K[88]));
 	}
 
-	scrypt_core(X, padcache);
+	vcrypt_core(X, padcache);
 
 	SHA256(&tmp0,&tmp1, X[0], X[1], X[2], X[3]);
 	SHA256(&tmp0,&tmp1, X[4], X[5], X[6], X[7]);

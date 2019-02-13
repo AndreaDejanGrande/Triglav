@@ -4,9 +4,7 @@
 #include <inttypes.h>
 #include <stdbool.h>
 
-/* Describes the Scrypt parameters and hashing functions used to mine
- * a specific coin.
- */
+// Describes the vCrypt parameters and hashing functions used to mine vDinar
 typedef struct _algorithm_t {
     char     name[20]; /* Human-readable identifier */
     uint32_t n;        /* N (CPU/Memory tradeoff parameter) */

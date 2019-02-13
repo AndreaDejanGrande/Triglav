@@ -40,7 +40,7 @@ __constant uint N[] = {
 	0x00000080U,
 	0x00000100U,
 	0x00000200U,
-	0x00000400U,  /* 2^10 == 1024, Litecoin scrypt default */
+	0x00000400U,  /* 2^10 == 1024, vDinar starting point */
 	0x00000800U,
 	0x00001000U,
 	0x00002000U,
@@ -53,7 +53,7 @@ __constant uint N[] = {
 	0x00100000U
 };
 
-/* Backwards compatibility, if NFACTOR not defined, default to 10 for scrypt */
+/* Backwards compatibility, if NFACTOR not defined, default to 10 for vCrypt */
 #ifndef NFACTOR
 #define NFACTOR 10
 #endif
@@ -785,7 +785,7 @@ void salsa(uint4 B[8])
 #define Coord(x,y,z) x+y*(x ## SIZE)+z*(y ## SIZE)*(x ## SIZE)
 #define CO Coord(z,x,y)
 
-void scrypt_core(uint4 X[8], __global uint4*restrict lookup)
+void vcrypt_core(uint4 X[8], __global uint4*restrict lookup)
 {
 	shittify(X);
 	const uint zSIZE = 8;
@@ -859,7 +859,7 @@ const uint4 midstate0, const uint4 midstate16, const uint target)
 		SHA256(&pad0,&pad1, data, (uint4)(i+1,K[84],0,0), (uint4)(0,0,0,0), (uint4)(0,0,0, K[87]));
 		SHA256(X+i*2,X+i*2+1, pad0, pad1, (uint4)(K[84], 0U, 0U, 0U), (uint4)(0U, 0U, 0U, K[88]));
 	}
-	scrypt_core(X,padcache);
+	vcrypt_core(X,padcache);
 	SHA256(&tmp0,&tmp1, X[0], X[1], X[2], X[3]);
 	SHA256(&tmp0,&tmp1, X[4], X[5], X[6], X[7]);
 	SHA256_fixed(&tmp0,&tmp1);

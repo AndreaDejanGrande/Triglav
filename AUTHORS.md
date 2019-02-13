@@ -20,8 +20,8 @@
 
 ## OpenCL kernels
 
-All current kernels are based on `scrypt`, originally by Colin Percival,
-updated by many others.
+All current kernels are based on `vCrypt`, which is in turn based on scrypt,
+originally supported by Colin Percival and updated by many others.
 
 * alexkarnew/alexkarold: Alexey Karimov LMqRcHdwnZtTMH6c2kWoxSoKM5KySfaP5C
 * bufius: Bufius VvvmmkYHKGtdr97JLyyZuJ3Th5ayungnjk

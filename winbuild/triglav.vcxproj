@@ -263,7 +263,7 @@ exit 0</Command>
     <ClCompile Include="..\logging.c" />
     <ClCompile Include="..\ocl.c" />
     <ClCompile Include="..\pool.c" />
-    <ClCompile Include="..\scrypt.c" />
+    <ClCompile Include="..\vcrypt.c" />
     <ClCompile Include="..\triglav.c" />
     <ClCompile Include="..\sha2.c" />
     <ClCompile Include="..\util.c" />
@@ -287,7 +287,7 @@ exit 0</Command>
     <ClInclude Include="..\miner.h" />
     <ClInclude Include="..\ocl.h" />
     <ClInclude Include="..\pool.h" />
-    <ClInclude Include="..\scrypt.h" />
+    <ClInclude Include="..\vcrypt.h" />
     <ClInclude Include="..\sha2.h" />
     <ClInclude Include="..\uthash.h" />
     <ClInclude Include="..\util.h" />

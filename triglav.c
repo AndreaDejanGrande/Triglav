@@ -57,7 +57,7 @@ char *curly = ":D";
 #include "bench_block.h"
 
 #include "algorithm.h"
-#include "scrypt.h"
+#include "vcrypt.h"
 #include "pool.h"
 
 #if defined(unix) || defined(__APPLE__)
@@ -1134,7 +1134,7 @@ static char *set_null(const char __maybe_unused *arg)
 static struct opt_table opt_config_table[] = {
 	OPT_WITH_ARG("--algorithm",
 		     set_algo, NULL, NULL,
-		     "Set mining algorithm and most common defaults, default: scrypt"),
+		     "Set mining algorithm and most common defaults, default: vcrypt"),
 	OPT_WITH_ARG("--api-allow",
 		     set_api_allow, NULL, NULL,
 		     "Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]"),
@@ -1253,7 +1253,7 @@ static struct opt_table opt_config_table[] = {
 #endif
 	OPT_WITH_ARG("--lookup-gap",
 		     set_lookup_gap, NULL, NULL,
-		     "Set GPU lookup gap for scrypt mining, comma separated"),
+		     "Set GPU lookup gap for vCrypt mining, comma separated"),
 #ifdef HAVE_CURSES
 	OPT_WITHOUT_ARG("--incognito",
 			opt_set_bool, &opt_incognito,
@@ -1303,7 +1303,7 @@ static struct opt_table opt_config_table[] = {
 			"Impose small delays in networking to not overload slow routers"),
 	OPT_WITH_ARG("--nfactor",
 		     set_nfactor, NULL, NULL,
-		     "Override default scrypt N-factor parameter."),
+		     "Override default vCrypt N-factor parameter."),
 #ifdef HAVE_ADL
 	OPT_WITHOUT_ARG("--no-adl",
 			opt_set_bool, &opt_noadl,
@@ -1377,7 +1377,7 @@ static struct opt_table opt_config_table[] = {
 		     "Set a time of day in HH:MM to stop mining (will quit without a start time)"),
 	OPT_WITH_ARG("--shaders",
 		     set_shaders, NULL, NULL,
-		     "GPU shaders per card for tuning scrypt, comma separated"),
+		     "GPU shaders per card for tuning vCrypt, comma separated"),
 	OPT_WITH_ARG("--sharelog",
 		     set_sharelog, NULL, NULL,
 		     "Append share log to file"),
@@ -1429,7 +1429,7 @@ static struct opt_table opt_config_table[] = {
 #endif
 	OPT_WITH_ARG("--thread-concurrency",
 		     set_thread_concurrency, NULL, NULL,
-		     "Set GPU thread concurrency for scrypt mining, comma separated"),
+		     "Set GPU thread concurrency for vCrypt mining, comma separated"),
 	OPT_WITH_ARG("--url|-o",
 		     set_url, NULL, NULL,
 		     "URL for bitcoin JSON-RPC server"),
@@ -4485,7 +4485,7 @@ void write_config(FILE *fcfg)
 	}
 	if (opt_removedisabled)
 		fprintf(fcfg, ",\n\"remove-disabled\" : true");
-	if (strcmp(opt_algorithm->name, "scrypt") != 0)
+	if (strcmp(opt_algorithm->name, "vcrypt") != 0)
 		fprintf(fcfg, ",\n\"algorithm\" : \"%s\"", json_escape(opt_algorithm->name));
 	if (opt_api_allow)
 		fprintf(fcfg, ",\n\"api-allow\" : \"%s\"", json_escape(opt_api_allow));
@@ -6211,7 +6211,7 @@ static void rebuild_nonce(struct work *work, uint32_t nonce)
 
 	*work_nonce = htole32(nonce);
 
-	scrypt_regenhash(work, work->pool->algorithm.n);
+	vcrypt_regenhash(work, work->pool->algorithm.n);
 }
 
 /* For testing a nonce against diff 1 */
@@ -6387,7 +6387,7 @@ static void hash_sole_work(struct thr_info *mythr)
 		work->device_diff = MIN(drv->working_diff, work->work_difficulty);
 
 		/* Dynamically adjust the working diff even if the target
-		 * diff is very high to ensure we can still validate scrypt is
+		 * diff is very high to ensure we can still validate vCrypt is
 		 * returning shares. */
 		double wu;
 
@@ -8027,7 +8027,7 @@ int main(int argc, char *argv[])
 
 	/* Default algorithm specified in algorithm.c ATM */
 	opt_algorithm = (algorithm_t *)alloca(sizeof(algorithm_t));
-	set_algorithm(opt_algorithm, "scrypt");
+	set_algorithm(opt_algorithm, "vcrypt");
 
 	devcursor = 8;
 	logstart = devcursor + 1;
@@ -8064,7 +8064,7 @@ int main(int argc, char *argv[])
 		struct pool *pool;
 
 		// FIXME: executes always (leftover from SHA256d days)
-		quit(1, "Cannot use benchmark mode with scrypt");
+		quit(1, "Cannot use benchmark mode with vCrypt");
 		pool = add_pool();
 		pool->rpc_url = (char *)malloc(255);
 		strcpy(pool->rpc_url, "Benchmark");

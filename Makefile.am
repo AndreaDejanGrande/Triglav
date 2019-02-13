@@ -6,7 +6,7 @@ JANSSON_CPPFLAGS= -I$(top_builddir)/compat/jansson-2.5/src -I$(top_srcdir)/compa
 EXTRA_DIST	= example.conf m4/gnulib-cache.m4 \
 		  ADL_SDK/readme.txt api-example.php miner.php	\
 		  API.class API.java api-example.c hexdump.c \
-		  doc/API doc/FAQ doc/GPU doc/SCRYPT doc/windows-build.txt
+		  doc/API doc/FAQ doc/GPU doc/windows-build.txt
 
 SUBDIRS		= lib compat ccan
 
@@ -43,7 +43,7 @@ triglav_SOURCES += findnonce.c findnonce.h
 triglav_SOURCES += adl.c adl.h adl_functions.h
 triglav_SOURCES += pool.c pool.h
 triglav_SOURCES += algorithm.c algorithm.h
-triglav_SOURCES += scrypt.c scrypt.h
+triglav_SOURCES += vcrypt.c vcrypt.h
 triglav_SOURCES += kernel/*.cl
 
 bin_SCRIPTS	= $(top_srcdir)/kernel/*.cl

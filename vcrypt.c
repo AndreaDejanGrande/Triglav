@@ -358,7 +358,7 @@ salsa20_8(uint32_t B[16], const uint32_t Bx[16])
  * scratchpad size needs to be at least (bytes):
  * 63 + (128 * r * p) + (256 * r + 64) + (128 * r * N)
  */
-static void scrypt_n_1_1_256_sp(const uint32_t* input, char* scratchpad, uint32_t *ostate, uint32_t n)
+static void vcrypt_n_1_1_256_sp(const uint32_t* input, char* scratchpad, uint32_t *ostate, uint32_t n)
 {
 	uint32_t * V;
 	uint32_t X[32];
@@ -404,7 +404,7 @@ static void scrypt_n_1_1_256_sp(const uint32_t* input, char* scratchpad, uint32_
 	PBKDF2_SHA256_80_128_32(input, X, ostate);
 }
 
-void scrypt_regenhash(struct work *work, uint32_t n)
+void vcrypt_regenhash(struct work *work, uint32_t n)
 {
 	uint32_t data[20];
 	char *scratchbuf;
@@ -415,7 +415,7 @@ void scrypt_regenhash(struct work *work, uint32_t n)
 	data[19] = htobe32(*nonce);
 
 	scratchbuf = (char *)alloca(n * 128 + 512);
-	scrypt_n_1_1_256_sp(data, scratchbuf, ohash, n);
+	vcrypt_n_1_1_256_sp(data, scratchbuf, ohash, n);
 	flip32(ohash, ohash);
 }
 

@@ -152,8 +152,7 @@ above.
 
 For more advanced usage , run `triglav --help`.
 
-See `doc/GPU` for more information regarding GPU mining and
-`doc/SCRYPT` for more information regarding Scrypt mining.
+See `doc/GPU` for more information regarding GPU mining.
 
 
 ## Runtime usage

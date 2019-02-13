@@ -2180,7 +2180,7 @@ static void addpool(struct io_data *io_data, __maybe_unused SOCKETTYPE c, char *
 	/* If API client is old, it might not have provided all fields. */
 	if (name == NULL) name = strdup("");
 	if (desc == NULL) desc = strdup("");
-	if (algo == NULL) algo = strdup("scrypt");  // FIXME?
+	if (algo == NULL) algo = strdup("vcrypt");  // FIXME?
 
 	pool = add_pool();
 	detect_stratum(pool, url);
