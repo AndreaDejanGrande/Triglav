@@ -1,22 +1,18 @@
-# sgminer
+# Triglav
 
 
 ## Introduction
 
+Triglav is the first GPU AMD miner for vCrypt (vDinar) and its block
+structure.
 This is a multi-threaded multi-pool GPU miner with ATI GPU monitoring,
-(over)clocking and fanspeed support for scrypt-based cryptocurrency. It is
-based on cgminer by Con Kolivas (ckolivas), which is in turn based on
-cpuminer by Jeff Garzik (jgarzik).
+(over)clocking and fanspeed support.
+It is based on sgminer, which is in turn based on cgminer by Con Kolivas
+(ckolivas) and cpuminer by Jeff Garzik (jgarzik).
 
-**releases**: https://github.com/sgminer-dev/sgminer/releases
+**releases**: https://github.com/AndreaDejanGrande/Triglav/releases
 
-**git tree**: https://github.com/sgminer-dev/sgminer
-
-**bugtracker**: https://github.com/sgminer-dev/sgminer/issues
-
-**irc**: `#sgminer` and `#sgminer-dev` on freenode
-
-**mailing lists**: https://sourceforge.net/p/sgminer/mailman/
+**git tree**: https://github.com/AndreaDejanGrande/Triglav
 
 License: GPLv3.  See `COPYING` for details.
 
@@ -34,7 +30,7 @@ Documentation is available in directory `doc`. It is organised by topics:
 * `kernel.md` for OpenCL kernel-related information, including development
   procedure;
 * `MINING.md` for how to find the right balance in GPU configuration to mine
-  Scrypt-based coins efficiently;
+  efficiently;
 * `windows-build.txt` for information on how to build on Windows.
 
 Note that **most of the documentation is outdated or incomplete**. If
@@ -63,7 +59,7 @@ If building from git:
 * autoconf
 * automake
 
-sgminer-specific configuration options:
+Triglav-specific configuration options:
 
     --disable-adl           Override detection and disable building with adl
 	--disable-adl-checks
@@ -91,7 +87,7 @@ To compile a debug version, replace `-O2` with `-ggdb`.
 
 Systemwide installation is optional. You may run `sgminer` from the build
 directory directly, or `make install` if you wish to install
-`sgminer` to a system location or a location you specified with `--prefix`.
+`Triglav` to a system location or a location you specified with `--prefix`.
 
 ### Windows build instructions
 
@@ -415,7 +411,7 @@ file and any changes that may have been made.
 
 ## Logging
 
-sgminer will log to stderr if it detects stderr is being redirected to a
+Triglav will log to stderr if it detects stderr is being redirected to a
 file. To enable logging simply append `2>logfile.txt` to your command line
 and `logfile.txt` will contain the logged output at the log level you
 specify (normal, verbose, debug etc.)
@@ -436,7 +432,7 @@ then D:d.ddd is the difficulty required to get a share from the work,
 then G:hh:mm:ss:n.nnn, which is when the getwork or LP was sent to the pool and
 the n.nnn is how long it took to reply,
 followed by 'O' on it's own if it is an original getwork, or 'C:n.nnn' if it was
-a clone with n.nnn stating how long after the work was recieved that it was cloned,
+a clone with n.nnn stating how long after the work was received that it was cloned,
 (m.mmm) is how long from when the original work was received until work started,
 W:n.nnn is how long the work took to process until it was ready to submit,
 (m.mmm) is how long from ready to submit to actually doing the submit, this is
@@ -444,7 +440,7 @@ usually 0.000 unless there was a problem with submitting the work,
 S:n.nnn is how long it took to submit the completed work and await the reply,
 R:hh:mm:ss is the actual time the work submit reply was received
 
-If you start sgminer with the --sharelog option, you can get detailed
+If you start Triglav with the --sharelog option, you can get detailed
 information for each share found. The argument to the option may be "-" for
 standard output (not advisable with the ncurses UI), any valid positive number
 for that file descriptor, or a filename.
