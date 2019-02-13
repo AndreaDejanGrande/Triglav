@@ -1,14 +1,5 @@
 # FAQ
 
-## Why don't you provide binaries?
-
-Binaries are a hassle to maintain. On Linux, they should be provided
-by your distribution's package manager anyway. Running an unoptimised
-binary gives a minor performance penalty. Running binaries from
-untrusted providers is a security risk. There has not been sufficient
-community interest to provide distributed determininstic builds.
-
-
 ## Where are the step-by-step installation instructions for Linux?
 
 A generic description of the build process is in `README.md`.
@@ -34,17 +25,11 @@ reason to display difficulty differently. This is a vicious cycle and a
 remnant of Bitcoin mining on GPUs.
 
 
-## Will sgminer support FPGAs or ASICs?
+## Will Triglav support FPGAs or ASICs?
 
-No. sgminer will only support GPUs. It is bad software design
-practice to try and support every gadget out there. Developers
-for dedicated hardware products are better off creating standalone
-software.
-
-
-## Will there be scrypt-jane/Keccak/SHA-3 support?
-
-All algorithms are valid candidates for inclusion if they use Scrypt.
+Triglav is built exclusively for the vCrypt algorithm (vDinar), which is
+ASIC resistant. Triglav is therefore GPU only and built for AMD devices.
+More about [vDinar](https://github.com/AndreaDejanGrande/vDinar.git)
 
 
 ## Can you modify the display...
@@ -56,17 +41,6 @@ Probably not. Everyone will always have their own view of what's
 important to monitor. The shipped NCurses TUI is intentionally ascetic,
 and is only provided as a fallback. It is recomended to use an API
 client if you want to customise the display.
-
-
-## Can I mine on servers from different networks...
-
-...(e.g. Litecoin and Dogecoin) at the same time?
-
-No. The software keeps a database of the block it's working on to ensure
-it does not work on stale blocks, and having different blocks from two
-networks would make it invalidate the work from each other.
-
-A workaround is running separate instances (see next question).
 
 
 ## Can I mine with different login credentials or pools for each separate
@@ -102,7 +76,7 @@ has already been filed on the issue tracker (including closed issues).
 
 ...even though my primary pool hasn't failed!
 
-`sgminer` checks for conditions where the primary pool is lagging and
+`Triglav` checks for conditions where the primary pool is lagging and
 will pass some work to the backup servers under those conditions. The
 reason for doing this is to try its absolute best to keep the GPUs
 working on something useful and not risk idle periods. You can disable
@@ -111,11 +85,11 @@ this behaviour with the option --failover-only.
 
 ## Is this a virus?
 
-`sgminer` may be packaged with other trojan scripts and some antivirus
-software is falsely accusing sgminer.exe as being the actual virus,
-rather than whatever it is being packaged with. If you had built sgminer
+`Triglav` may be packaged with other trojan scripts and some antivirus
+software is falsely accusing triglav.exe as being the actual virus,
+rather than whatever it is being packaged with. If you had built Triglav
 yourself, then you do not have a virus on your computer. Complain to
-your antivirus software company..
+your antivirus software company...
 
 
 ## GUI version?
@@ -126,7 +100,7 @@ No. The API makes it possible for someone else to write one though.
 ## What are the best parameters to pass for pool / hardware / device?
 
 See `doc/MINING.md` in your source distribution directory, or
-[doc/MINING.md](https://github.com/veox/sgminer/blob/master/doc/MINING.md)
+[doc/MINING.md](https://github.com/AndreaDejanGrande/Triglav/blob/master/doc/MINING.md)
 for an online version. Note that the latter is for the latest
 development version, and arguments listed there are not necessarily
 available in your local version.
@@ -134,13 +108,13 @@ available in your local version.
 
 ## Is CPU mining supported?
 
-No. Consider using [cpuminer](https://github.com/pooler/cpuminer).
+No. Consider using [Svarog](https://github.com/AndreaDejanGrande/Svarog).
 
 
 ## I'm having an issue. What should I provide in the bug report?
 
 See `doc/BUGS.md` in your source distribution directory, or
-[doc/BUGS.md](https://github.com/veox/sgminer/blob/master/doc/BUGS.md)
+[doc/BUGS.md](https://github.com/AndreaDejanGrande/Triglav/blob/master/doc/BUGS.md)
 for an online version.
 
 
@@ -149,13 +123,13 @@ for an online version.
 It comes down to choice of operating system for their various
 features. Linux offers specialised mining distributions, much better
 long term stability, remote monitoring and security, while Windows
-offers overclocking tools that can achieve much more than sgminer can do
+offers overclocking tools that can achieve much more than Triglav can do
 on Linux. YMMV.
 
 
-## Can I mine with sgminer on a Mac?
+## Can I mine with Triglav on a Mac?
 
-`sgminer` will compile on OSX, but the performance of GPU mining
+`Triglav` will compile on OSX, but the performance of GPU mining
 is compromised due to the OpenCL implementation on OSX, there is no
 temperature or fanspeed monitoring, and the cooling design will usually
 not cope with constant usage leading to a high risk of thermal damage.
@@ -182,7 +156,7 @@ to use `--failover-only` since the work is effectively a separate
 blockchain.
 
 
-## Are OpenCL kernels from other mining software usable in sgminer?
+## Are OpenCL kernels from other mining software usable in Triglav?
 
 Most often no.
 
@@ -190,7 +164,7 @@ Most often no.
 ## How do I add my own kernel?
 
 See `doc/KERNEL.md` in your source distribution directory, or
-[doc/KERNEL.md](https://github.com/veox/sgminer/blob/master/doc/KERNEL.md)
+[doc/KERNEL.md](https://github.com/AndreaDejanGrande/Triglav/blob/master/doc/KERNEL.md)
 for an online version.
 
 
@@ -207,14 +181,14 @@ See [this](http://us.php.net/manual/en/sockets.installation.php).
 Stratum is a protocol designed for pooled mining in such a way as to
 minimise the amount of network communications, yet scale to hardware
 of any speed. If a pool has stratum support (and most public ones do),
-sgminer will automatically detect it and switch to the support as
+Triglav will automatically detect it and switch to the support as
 advertised if it can. If you input the stratum port directly into your
 configuration, or use the special prefix `stratum+tcp://` instead of
-`http://`, sgminer will ONLY try to use stratum protocol mining. The
+`http://`, Triglav will ONLY try to use stratum protocol mining. The
 advantages of stratum to the miner are no delays in getting more work
 for the miner, less rejects across block changes, and far less network
 communications for the same amount of mining hashrate. If you do not
-wish sgminer to automatically switch to stratum protocol even if it is
+wish Triglav to automatically switch to stratum protocol even if it is
 detected, add the `--fix-protocol` option.
 
 

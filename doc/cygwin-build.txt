@@ -53,17 +53,17 @@ Note2: If you update your APP SDK later, you will want to re-copy the above
 files.
 
 ********************************************************************************
-* Fetch the sgminer source                                                     *
+* Fetch the Triglav source                                                     *
 ********************************************************************************
 You've probably already done this, but this can be done with git or with a zip
 file. With git:
     $ cd
-    $ git clone git@github.com:veox/sgminer.git
+    $ git clone git@github.com:AndreaDejanGrande/Triglav.git
 
 With a zip file:
     $ cd
-    $ unzip /cygdrive/c/Users/'YOURNAME'/Downloads/sgminer-master.zip
-    $ mv sgminer-master sgminer
+    $ unzip /cygdrive/c/Users/'YOURNAME'/Downloads/triglav-master.zip
+    $ mv triglav-master Triglav
 (I only rename it to make the directions below uniform.)
 
 ********************************************************************************
@@ -73,14 +73,14 @@ Note: You do not need to install the AMD ADL SDK if you are only using Nvidia
 GPUs. Go to this URL:
 http://developer.amd.com/tools-and-sdks/graphics-development/display-library-adl-sdk/
 Download and unzip the file you downloaded:
-    $ cd ~/sgminer
+    $ cd ~/Triglav
     $ unzip /cygdrive/c/Users/'YOURNAME'/Downloads/ADL_SDK*.zip 'include/*'
 
 ********************************************************************************
-* Build sgminer.exe                                                            *
+* Build triglav.exe                                                            *
 ********************************************************************************
-There's no reason to use -O3 in your CFLAGS as sgminer isn't CPU-intensive.
-    $ cd ~/sgminer
+There's no reason to use -O3 in your CFLAGS as Triglav isn't CPU-intensive.
+    $ cd ~/Triglav
     $ ./autogen.sh
     $ AMDAPPSDKROOT= CFLAGS='-O2 -march=native' \
         CPPFLAGS=-I/usr/include/ncurses ./configure
@@ -96,31 +96,31 @@ the file smaller by removing symbols not needed for running.
 ********************************************************************************
 Don't use `make install` as it copies a lot of things you don't want, and it's
 harder to run. First:
-    $ cp sgminer.exe /usr/bin/__sgminer.exe
-    $ cp -R kernel /usr/share/sgminer
+    $ cp triglav.exe /usr/bin/__triglav.exe
+    $ cp -R kernel /usr/share/Triglav
 
-And create the wrapper /usr/bin/sgminer:
+And create the wrapper /usr/bin/Triglav:
     #!/bin/sh
     export GPU_MAX_ALLOC_PERCENT=100
     export GPU_USE_SYNC_OBJECTS=1
-    if [[ -f $HOME/.sgminer.json ]]; then
-        exec __sgminer --config "$HOME"/.sgminer.json \
-                --kernel-path /usr/share/sgminer "$@"
+    if [[ -f $HOME/.triglav.json ]]; then
+        exec __triglav --config "$HOME"/.triglav.json \
+                --kernel-path /usr/share/Triglav "$@"
     fi
-    exec __sgminer --kernel-path /usr/share/sgminer "$@"
+    exec __triglav --kernel-path /usr/share/Triglav "$@"
 
 Use the .json extension above if you want syntax highlighting when you edit it.
 Make the wrapper executable:
-    $ chmod +x /usr/bin/sgminer
+    $ chmod +x /usr/bin/Triglav
 
-And write your config based on sgminer/example.conf. Remember not to overwrite
-/usr/bin/sgminer if/when you update sgminer!
+And write your config based on Triglav/example.conf. Remember not to overwrite
+/usr/bin/Triglav if/when you update Triglav!
 
 ********************************************************************************
 * Running                                                                      *
 ********************************************************************************
-If you've configured it with ~/.sgminer.json, you don't need any options!
-    $ sgminer [OPTIONS]
+If you've configured it with ~/.triglav.json, you don't need any options!
+    $ triglav [OPTIONS]
 
 ********************************************************************************
 * Some ./configure options                                                     *

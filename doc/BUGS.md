@@ -4,7 +4,7 @@ First and foremost, see `README.md` and other documentation in `doc`.
 Although the documentation might be outdated, a lot of it is still
 relevant.
 
-The [issue tracker](https://github.com/veox/sgminer/issues) is there
+The [issue tracker](https://github.com/AndreaDejanGrande/Triglav/issues) is there
 specifically for reporting bugs, issues and proposed improvements. Other
 communication channels are not necessarily monitored.
 
@@ -18,15 +18,15 @@ Information that may be relevant, depending on the nature of your issue:
 * Catalyst driver version;
 * AMD APP SDK version;
 * AMD ADL version;
-* GPUs used (`sgminer --ndevs`);
+* GPUs used (`triglav --ndevs`);
 * whether you're using a pre-compiled binary or built from source;
-* `sgminer` version (`sgminer --version` and/or `git describe`);
+* `Triglav` version (`triglav --version` and/or `git describe`);
 * contents of the configuration file and pool connection info;
 * launch procedure (manual or via script);
 * steps to repeat;
 * expected result;
 * actual result;
-* debug output (`sgminer --text-only --debug --verbose`).
+* debug output (`triglav --text-only --debug --verbose`).
 
 Be careful when posting the contents of your configuration file: although
 pool connection and protocol information is relevant in a certain sub-class

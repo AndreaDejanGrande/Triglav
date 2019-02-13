@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Mining scrypt-based cryptocurrencies using GPUs is completely different
+Mining scrypt/vCrypt cryptocurrencies using GPUs is completely different
 to mining SHA256d (used in Bitcoin). The former was intentionally
 developed in a manner that (it was hoped) would make it suitable
 for mining on CPUs, but not GPUs. Thanks to some innovative work by
@@ -50,7 +50,7 @@ setx GPU_USE_SYNC_OBJECTS 1
 
 ## Tuning
 
-When mining is started, sgminer may fail in various ways. This is often
+When mining is started, Triglav may fail in various ways. This is often
 not a bug in the software, but rather misconfiguration. The failures may
 occur due to parameters being outside what the GPU can cope with (both
 too high and too low).
@@ -68,9 +68,9 @@ run out of ram. High intensities start writing over the same ram and it
 is highly dependent on the GPU, but they can start actually DECREASING
 your hashrate, or even worse, start producing garbage with HW errors
 skyrocketing, or locking up the system altogether. Note that if you do
-NOT specify an intensity, sgminer uses dynamic mode which is designed
+NOT specify an intensity, Triglav uses dynamic mode which is designed
 to minimise the harm to a running desktop and performance WILL be poor.
-The lower limit to intensity with scrypt is usually 8 and sgminer will
+The lower limit to intensity with scrypt is usually 8 and Triglav will
 prevent it going too low.
 
 SUMMARY: Setting this for reasonable hashrates is mandatory.
@@ -78,10 +78,10 @@ SUMMARY: Setting this for reasonable hashrates is mandatory.
 
 ### --shaders XXX
 
-is an option where you tell sgminer how many shaders your GPU has. This
-helps sgminer try to choose some meaningful baseline parameters. Use
+is an option where you tell Triglav how many shaders your GPU has. This
+helps Triglav try to choose some meaningful baseline parameters. Use
 this table below to determine how many shaders your GPU has, and note
-that there are some variants of these cards. If this is not set, sgminer
+that there are some variants of these cards. If this is not set, Triglav
 will query the device for how much memory it supports and will try to
 set a value based on that.
 
@@ -115,14 +115,14 @@ instead.
  5870 | 1600
  5970 | (5870x2)
 
-These are only used as a rough guide for sgminer, and it is rare that
+These are only used as a rough guide for Triglav, and it is rare that
 this is all you will need to set.
 
 
 ### --thread-concurrency
 
 This tunes the optimal size of work that scrypt can do. It is internally
-tuned by sgminer to be the highest reasonable multiple of shaders that
+tuned by Triglav to be the highest reasonable multiple of shaders that
 it can allocate on your GPU. Ideally it should be a multiple of your
 shader count. vliw5 architecture (R5XXX) would be best at 5x shaders,
 while VLIW4 (R6xxx and R7xxx) are best at 4x. Setting thread concurrency
@@ -136,7 +136,7 @@ likes and increases hashrate.
 ### -g
 
 Once you have found the optimal shaders and intensity, you can start
-increasing the -g value till sgminer fails to start. This is really only
+increasing the -g value till Triglav fails to start. This is really only
 of value if you want to run low intensities as you will be unable to run
 more than 1.
 
@@ -148,7 +148,7 @@ SUMMARY: Don't touch this.
 This tunes a compromise between ram usage and performance. Performance
 peaks at a gap of 2, but increasing the gap can save you some GPU
 ram, but almost always at the cost of significant loss of hashrate.
-Setting lookup gap overrides the default of 2, but sgminer will use the
+Setting lookup gap overrides the default of 2, but Triglav will use the
 --shaders value to choose a thread-concurrency if you haven't chosen
 one.
 
@@ -199,7 +199,7 @@ or on windows this:
     setx GPU_MAX_ALLOC_PERCENT 100
 
 in the same console/bash/dos prompt/bat file/whatever you want to call it,
-before running sgminer.
+before running Triglav.
 
 First, find the highest thread concurrency that you can start it at.
 They should all start at 8192 but some will go up to 3 times that. Don't
@@ -210,10 +210,10 @@ hashrate.
 Delete any .bin files so you're starting from scratch and see what bins
 get generated.
 
-First try without any thread concurrency or even shaders, as sgminer
+First try without any thread concurrency or even shaders, as Triglav
 will try to find an optimal value
 
-    sgminer -I 13
+    triglav -I 13
 
 If that starts mining, see what bin was generated, it is likely the
 largest meaningful TC you can set. Starting it on mine I get:
