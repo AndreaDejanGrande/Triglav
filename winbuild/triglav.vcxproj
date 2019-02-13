@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CCA64DCD-6401-42A3-ABC3-89E48A36D239}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>sgminer</RootNamespace>
+    <RootNamespace>Triglav</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -264,7 +264,7 @@ exit 0</Command>
     <ClCompile Include="..\ocl.c" />
     <ClCompile Include="..\pool.c" />
     <ClCompile Include="..\scrypt.c" />
-    <ClCompile Include="..\sgminer.c" />
+    <ClCompile Include="..\triglav.c" />
     <ClCompile Include="..\sha2.c" />
     <ClCompile Include="..\util.c" />
   </ItemGroup>

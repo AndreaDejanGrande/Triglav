@@ -41,7 +41,7 @@
     <ClCompile Include="..\scrypt.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\sgminer.c">
+    <ClCompile Include="..\triglav.c">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\sha2.c">

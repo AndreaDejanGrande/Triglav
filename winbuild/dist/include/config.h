@@ -68,14 +68,14 @@
 
 #endif
 
-#define VERSION "v4.2.1"
-#define PACKAGE_NAME "sgminer"
-#define PACKAGE_TARNAME "sgminer"
-#define PACKAGE_VERSION "4.2.1"
-#define PACKAGE_STRING "sgminer 4.2.1"
-#define PACKAGE "sgminer"
+#define VERSION "v1.1.0"
+#define PACKAGE_NAME "Triglav"
+#define PACKAGE_TARNAME "Triglav"
+#define PACKAGE_VERSION "1.1.0"
+#define PACKAGE_STRING "Triglav 1.1.1"
+#define PACKAGE "Triglav"
 
-#define SGMINER_PREFIX ""
+#define TRIGLAV_PREFIX ""
 
 #include "gitversion.h"
 #include "winbuild.h"
