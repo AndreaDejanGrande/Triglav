@@ -1,6 +1,5 @@
 # Triglav
 
-
 ## Introduction
 
 Triglav is the first GPU AMD miner for vCrypt (vDinar) and its block
@@ -10,16 +9,16 @@ This is a multi-threaded multi-pool GPU miner with ATI GPU monitoring,
 It is based on sgminer, which is in turn based on cgminer by Con Kolivas
 (ckolivas) and cpuminer by Jeff Garzik (jgarzik).
 
-**releases**: https://github.com/AndreaDejanGrande/Triglav/releases
+**Downloads**: https://github.com/AndreaDejanGrande/Triglav/releases
 
-**git tree**: https://github.com/AndreaDejanGrande/Triglav
+**Git tree**: https://github.com/AndreaDejanGrande/Triglav
 
 License: GPLv3.  See `COPYING` for details.
 
 
 ## Documentation
 
-Documentation is available in directory `doc`. It is organised by topics:
+Documentation is available in directory `doc`. It is organized by topics:
 
 * `API` for the RPC API specification;
 * `configuration.md` for (largely incomplete) detailed information on all
@@ -65,9 +64,10 @@ Triglav-specific configuration options:
 	--disable-adl-checks
     --without-curses        Do not compile support for curses TUI
     
-#### Debian Example
+#### *nix example
 
     apt-get install libcurl4-openssl-dev pkg-config libtool libncurses5-dev
+
 AMD APP SDK and AMD ADL SDK must be downloaded from the amd websites.
 
 ### *nix build instructions
@@ -91,13 +91,13 @@ directory directly, or `make install` if you wish to install
 
 ### Windows build instructions
 
-See `doc/windows-build.txt` for MinGW compilation and cross-compiation,
+See `doc/windows-build.txt` for MinGW compilation and cross-compilation,
 `doc/cygwin-build.txt` for building using Cygwin, or use the provided
 `winbuild` Microsoft Visual Studio project (tested on MSVS2010), with
 instructions in `winbuild/README.txt`.
 
 
-## Basic Usage
+## Basic usage
 
 **WARNING**: documentation below this point has not been updated since the
 fork.
