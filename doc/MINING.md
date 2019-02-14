@@ -1,4 +1,4 @@
-# Mining scrypt
+# Mining vCrypt
 
 ## Introduction
 
@@ -17,7 +17,7 @@ enough GPU RAM. What is "enough" depends on setup specifics.
 ## Catalyst drivers and OpenCL SDK
 
 The choice of driver version for your GPU is critical, as some are known
-to break scrypt mining entirely while others give poor hashrates. It is
+to break vCrypt mining entirely while others give poor hashrates. It is
 recommended that you first try with the latest stable version available.
 
 Latest driver distribution versions may aready include the AMD APP
@@ -63,14 +63,14 @@ All parameters are optional for fine tuning.
 ### --intensity XX (-I XX)
 
 The scale goes from 0 to 31. The reason this is crucial is that too
-high an intensity can actually be disastrous with scrypt because it CAN
+high an intensity can actually be disastrous with vCrypt because it CAN
 run out of ram. High intensities start writing over the same ram and it
 is highly dependent on the GPU, but they can start actually DECREASING
 your hashrate, or even worse, start producing garbage with HW errors
 skyrocketing, or locking up the system altogether. Note that if you do
 NOT specify an intensity, Triglav uses dynamic mode which is designed
 to minimise the harm to a running desktop and performance WILL be poor.
-The lower limit to intensity with scrypt is usually 8 and Triglav will
+The lower limit to intensity with vCrypt is usually 8 and Triglav will
 prevent it going too low.
 
 SUMMARY: Setting this for reasonable hashrates is mandatory.
@@ -121,7 +121,7 @@ this is all you will need to set.
 
 ### --thread-concurrency
 
-This tunes the optimal size of work that scrypt can do. It is internally
+This tunes the optimal size of work that vCrypt can do. It is internally
 tuned by Triglav to be the highest reasonable multiple of shaders that
 it can allocate on your GPU. Ideally it should be a multiple of your
 shader count. vliw5 architecture (R5XXX) would be best at 5x shaders,
@@ -163,8 +163,8 @@ SUMMARY: Worth playing with once everything else has been tried but will
 probably do nothing.
 
 
-Overclocking for scrypt mining: First of all, do not underclock your
-memory initially. Scrypt mining requires memory speed and on most, but
+Overclocking for vCrypt mining: First of all, do not underclock your
+memory initially. vCrypt mining requires memory speed and on most, but
 not all, GPUs, lowering memory speed lowers mining performance.
 
 
@@ -178,7 +178,7 @@ actually drop if you increase the engine clock speed further.
 Third, the combination of motherboard, CPU and system ram ALSO makes a
 difference, so values that work for a GPU on one system may not work for
 the same GPU on a different system. A decent amount of system ram is
-actually required for scrypt mining, and 4GB is suggested.
+actually required for vCrypt mining, and 4GB is suggested.
 
 
 Finally, the power consumption while mining at high engine clocks,
@@ -218,7 +218,7 @@ will try to find an optimal value
 If that starts mining, see what bin was generated, it is likely the
 largest meaningful TC you can set. Starting it on mine I get:
 
-    scrypt130302Tahitiglg2tc22392w64l8.bin
+    vcrypt130302Tahitiglg2tc22392w64l8.bin
 
 See tc22392 that's telling you what thread concurrency it was. It should
 start without TC parameters, but you never know. So if it doesn't, start

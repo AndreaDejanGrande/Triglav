@@ -104,7 +104,7 @@ NOTE: Running BTC intensities above 9 with current hardware is likely to only
 diminish return performance even if the hash rate might appear better. A good
 starting baseline intensity to try on dedicated miners is 9. 11 is the upper
 limit for intensity while BTC mining, if the GPU_USE_SYNC_OBJECTS variable
-is set (see FAQ). The upper limit for sha256 mining is 14 and 20 for scrypt.
+is set (see FAQ). The upper limit for sha256 mining is 14 and 20 for vCrypt.
 
 
 ---
@@ -425,11 +425,11 @@ AMD cards, and other software with similar flags for non-AMD cards.
 Q: Can I mine on Linux without running Xorg?
 A: With Nvidia you can, but with AMD you cannot.
 
-Q: I can't get anywhere near enough hashrate for scrypt compared to other
+Q: I can't get anywhere near enough hashrate for vCrypt compared to other
 people?
 A: You may not have enough system RAM as this is also required.
 
-Q: My scrypt hashrate is high but the pool reports only a tiny proportion of
+Q: My vCrypt hashrate is high but the pool reports only a tiny proportion of
 my hashrate?
 A: You are generating garbage hashes due to your choice of settings. Your
 Work Utility (WU) value will confirm you are not generating garbage. You
@@ -441,10 +441,9 @@ current version of Triglav but were not on an older version, chances are that
 the older version simply wasn't reporting them so going back to and older
 version is not a real solution.
 
-Q: Scrypt fails to initialise the kernel every time?
+Q: vCrypt fails to initialise the kernel every time?
 A: Your parameters are too high. Don't add GPU threads, don't set intensity
-too high, decrease thread concurrency. See the SCRYPT-README for a lot more
-help.
+too high, decrease thread concurrency.
 
 Q: Triglav stops mining (or my GPUs go DEAD) and I can't close it?
 A: Once the driver has crashed, there is no way for Triglav to close cleanly.

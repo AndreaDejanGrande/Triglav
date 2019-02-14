@@ -346,7 +346,7 @@ The list of requests - a (*) means it requires privileged access - and replies:
                               stating what failover-only was set to
 
  coin          COIN           Coin mining information:
-                              Hash Method=sha256/scrypt,
+                              Hash Method=vcrypt,
                               Current Block Time=N.N, <- 0 means none
                               Current Block Hash=XXXX..., <- blank if none
                               LP=true/false, <- LP is in use on at least 1 pool
